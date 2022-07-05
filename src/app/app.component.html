@@ -1,12 +1,23 @@
+<header class="main-header">
+  <h1 class="main-header__headline">Current Loans</h1>
+</header>
 <main class="main-component">
   <section class="main-section">
     <div class="main-container">
       <div class="loan-card" *ngFor="let loan of loansList">
-        <p class="loan-card__message"></p>
-        <h2 class="loan-card__title">{{ loan.title}}</h2>
-        <a href="" class="loan-card__button">invest</a>
-        <p class="loan-card__details">available amount: {{ loan.available }}</p>
+        <div class="loan-card__wrap loan-card__wrap_left">
+          <h2 class="loan-card__title">{{ loan.title}}</h2>
+          <p class="loan-card__details">available amount: {{ loan.available }}</p>
+        </div>
+        <div class="loan-card__wrap loan-card__wrap_right">
+          <p class="loan-card__message"></p>
+          <button class="loan-card__button">invest</button>
+        </div>
       </div>
+    </div>
+    <div class="total-amount-block">
+      <p class="total-amount-block__info">Total amount available for investment:</p>
+      <p class="total-amount-block__number">500000$</p>
     </div>
   </section>
 </main>
