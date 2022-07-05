@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoansService } from './loans.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'investment-project';
+
+  public loansList:any = {};
+  
+  constructor(private loansService: LoansService){ }
+
+  ngOnInit(): void {
+    this.loansService.getLoans().subscribe((data:any) => {
+        this.loansList = data.loans;
+        console.log(this.loansList);
+    });
+  }
 }
