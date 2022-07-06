@@ -10,28 +10,28 @@
           <p class="loan-card__details">available amount: {{ loan.properties.available }}</p>
         </div>
         <div class="loan-card__wrap loan-card__wrap_right">
-          <p class="loan-card__message"></p>
+          <p class="loan-card__message">{{ loan.investIndicator }}</p>
           <button class="loan-card__button" (click)="onSelect(loan)">invest</button>
         </div>
       </div>
       <div class="form-container" *ngIf="selectedLoan">
-        <form action="" method="POST" class="loan-form">
+        <div class="loan-form" >
           <h2 class="loan-form__headline">Invest in Loan</h2>
           <h3 class="loan-form__title">{{selectedLoan.properties.title}}</h3>
-          <p class="loan-form__available-amount">Amount available: </p>
-          <p class="loan-form__end-term">Loan ends in:  </p>
+          <p class="loan-form__available-amount" >Amount available: {{selectedLoan.properties.available}}
+          <p class="loan-form__end-term">Loan ends in:  {{ selectedLoan.properties.term_remaining }}</p>
           <label class="loan-form__label" for="input-field">Investment amount</label>
           <div class="loan-form__input-container">
-            <input type="text" class="loan-form__input" id="input-field">
-            <button class="loan-form__button">invest</button>
+            <input type="text" class="loan-form__input" [(ngModel)]="investAmount" name="form-input">
+            <button class="loan-form__button" (click)="onInvest(investAmount, totalAmount, selectedLoan.properties.available, selectedLoan)">invest</button>
             <button class="loan-form__button" (click)="closeElem()">close</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
     <div class="total-amount-block">
       <p class="total-amount-block__info">Total amount available for investment:</p>
-      <p class="total-amount-block__number">500000$</p>
+      <p class="total-amount-block__number">{{ totalAmount }}$</p>
     </div>
     
   </section>
