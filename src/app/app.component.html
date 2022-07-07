@@ -4,34 +4,36 @@
 <main class="main-component">
   <section class="main-section">
     <div class="main-container">
-      <div class="loan-card" *ngFor="let loan of loansList">
+      <div class="loan-card main-container__loan-card" *ngFor="let loan of loansList">
         <div class="loan-card__wrap loan-card__wrap_left">
-          <h2 class="loan-card__title">{{ loan.properties.title }}</h2>
-          <p class="loan-card__details">available amount: {{ loan.properties.available }}</p>
+          <h3 class="loan-card__title">{{ loan.properties.title }}</h3>
+          <p class="loan-card__details">Amount available: {{ (loan.properties.available).replace(',','') | currency:'USD':'symbol': '1.0' }}</p>
         </div>
         <div class="loan-card__wrap loan-card__wrap_right">
-          <p class="loan-card__message">{{ loan.investIndicator }}</p>
+          <p class="loan-card__message" *ngIf="loan.investIndicator">invested</p>
           <button class="loan-card__button" (click)="onSelect(loan)">invest</button>
         </div>
       </div>
       <div class="form-container" *ngIf="selectedLoan">
-        <div class="loan-form" >
-          <h2 class="loan-form__headline">Invest in Loan</h2>
-          <h3 class="loan-form__title">{{selectedLoan.properties.title}}</h3>
-          <p class="loan-form__available-amount" >Amount available: {{selectedLoan.properties.available}}
-          <p class="loan-form__end-term">Loan ends in:  {{ selectedLoan.properties.term_remaining }}</p>
-          <label class="loan-form__label" for="input-field">Investment amount</label>
-          <div class="loan-form__input-container">
-            <input type="text" class="loan-form__input" [(ngModel)]="investAmount" name="form-input">
-            <button class="loan-form__button" (click)="onInvest(investAmount, totalAmount, selectedLoan.properties.available, selectedLoan)">invest</button>
-            <button class="loan-form__button" (click)="closeElem()">close</button>
-          </div>
+        <div class="form-body">
+          <form action="" method="post" class="loan-form" >
+            <button class="loan-form__button loan-form__button_close" (click)="closeElem()">X</button>
+            <h2 class="loan-form__headline">Invest in Loan</h2>
+            <p class="loan-form__title">{{selectedLoan.properties.title}}</p>
+            <p class="loan-form__available-amount" >Amount available: {{(selectedLoan.properties.available).replace(',','') | currency:'USD':'symbol': '1.0'}}
+            <p class="loan-form__end-term">Loan ends in:  {{ getPeriod(selectedLoan.properties.term_remaining)  }} </p>
+            <label class="loan-form__label" for="input-field">Investment amount</label>
+            <div class="loan-form__input-container">
+              <input type="text" class="loan-form__input" [(ngModel)]="investAmount" name="form-input" >
+              <button class="loan-card__button" (click)="onInvest(investAmount, selectedLoan)">invest</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
     <div class="total-amount-block">
       <p class="total-amount-block__info">Total amount available for investment:</p>
-      <p class="total-amount-block__number">{{ totalAmount }}$</p>
+      <p class="total-amount-block__number">{{ totalAmount | currency:'USD':'symbol': '1.0' }}</p>
     </div>
     
   </section>

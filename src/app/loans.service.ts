@@ -12,7 +12,6 @@ export class LoansService {
   constructor() { }
 
   getLoans(): Observable<any>{
-    const loansList = of(Loans);
-    return loansList;
+    return of(Loans);
   }
 }

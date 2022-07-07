@@ -19,11 +19,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.loansService.getLoans().subscribe((data:any) => {
-        this.loansList = [
-          new Loan(data.loans[0], ""),
-          new Loan(data.loans[1], ""),
-          new Loan(data.loans[2], "")
-        ]
+        this.loansList = data.loans.map((loan: any): Loan => new Loan(loan, false));
         console.log(this.loansList);
     });
   }
@@ -31,22 +27,24 @@ export class AppComponent {
   onSelect(loan: Loan){
     this.selectedLoan = loan;
   }
+  getPeriod(currentDate: any){
+    return `${Math.round(currentDate/86400)} days`;
+  }
 
   closeElem(){
     this.investAmount = 0;
     this.selectedLoan = null;
   }
 
-  onInvest(inputVal:number, summary: number, availableVal: any, chosenLoan: Loan | null){
+  onInvest(inputVal:number, chosenLoan: Loan | null){
     if(inputVal > 0 && !isNaN(inputVal) && chosenLoan !== null){
-      if(this.totalAmount > inputVal && Number(availableVal.split(',').join('')) >= inputVal){
-        summary = summary - inputVal;
-        this.totalAmount = summary;
-        availableVal = Number(availableVal.split(',').join('')) - inputVal;
+      if(this.totalAmount > inputVal && Number(chosenLoan.properties.available.replace(',','')) >= inputVal){
+        this.totalAmount = this.totalAmount - inputVal;
+        const availableVal = chosenLoan.properties.available.replace(',','') - inputVal;
         chosenLoan.properties.available = String(availableVal);
-        chosenLoan.investIndicator = "invested";
+        chosenLoan.investIndicator = true;
         this.closeElem();
       }
-    } 
+    }
   }
 }
